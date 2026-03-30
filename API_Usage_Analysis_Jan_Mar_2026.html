@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Usage Analysis — Jan–Mar 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+  .header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%); color: white; padding: 36px 48px; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
+  .header p { margin-top: 8px; opacity: 0.7; font-size: 14px; }
+  .container { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+  .section-title { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e0e0e0; }
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .kpi { background: white; border-radius: 12px; padding: 20px 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .kpi .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888; margin-bottom: 8px; }
+  .kpi .value { font-size: 32px; font-weight: 700; color: #1a1a2e; }
+  .kpi .sub { font-size: 12px; margin-top: 4px; }
+  .kpi .sub.up { color: #22c55e; } .kpi .sub.down { color: #ef4444; }
+  .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px; }
+  .chart-container { position: relative; height: 300px; }
+  .chart-container.tall { height: 380px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; margin-right: 6px; margin-bottom: 4px; }
+  .badge-red { background: #fee2e2; color: #dc2626; }
+  .badge-green { background: #dcfce7; color: #16a34a; }
+  .badge-yellow { background: #fef9c3; color: #854d0e; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+  .badge-purple { background: #ede9fe; color: #7c3aed; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #f8fafc; text-align: left; padding: 10px 12px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; border-bottom: 1px solid #e2e8f0; }
+  td { padding: 10px 12px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+  .trend-up { color: #16a34a; font-weight: 600; }
+  .trend-dn { color: #dc2626; font-weight: 600; }
+  .trend-flat { color: #64748b; }
+  .insight-box { background: #fffbeb; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 8px 8px 0; margin-bottom: 12px; font-size: 13px; line-height: 1.6; }
+  .insight-box.blue { background: #eff6ff; border-left-color: #3b82f6; }
+  .insight-box.red { background: #fef2f2; border-left-color: #ef4444; }
+  .insight-box.green { background: #f0fdf4; border-left-color: #22c55e; }
+  .insight-box strong { display: block; font-size: 13px; margin-bottom: 3px; color: #1a1a2e; }
+  .anno-line { position: absolute; top: 0; bottom: 0; border-left: 2px dashed rgba(239,68,68,0.6); pointer-events: none; }
+  .section-gap { margin-bottom: 40px; }
+  @media (max-width: 900px) { .kpi-row, .two-col, .three-col { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .kpi-row, .two-col, .three-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>API Usage Analysis — January through March 2026</h1>
+  <p>Daily call volume across all clients · Generated March 30, 2026</p>
+</div>
+
+<div class="container">
+
+  <!-- KPI Row -->
+  <div class="kpi-row" style="margin-top:8px;">
+    <div class="kpi">
+      <div class="label">Jan Daily Avg (Total)</div>
+      <div class="value">26.2M</div>
+      <div class="sub">calls / day across all clients</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Feb Daily Avg (Total)</div>
+      <div class="value">34.1M</div>
+      <div class="sub up">▲ +30% vs Jan</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Mar Daily Avg (Total)</div>
+      <div class="value">36.9M</div>
+      <div class="sub up">▲ +8% vs Feb</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Active Clients (Jan 2026)</div>
+      <div class="value">23</div>
+      <div class="sub">meaningful usage (&gt;1K calls/day)</div>
+    </div>
+  </div>
+
+  <!-- Platform Volume -->
+  <div class="section-gap">
+    <div class="section-title">Overall Platform Volume</div>
+    <div class="card">
+      <div class="chart-container tall">
+        <canvas id="grandTotalChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Clients Trend -->
+  <div class="section-gap">
+    <div class="section-title">Top Clients — Daily Call Volume (M)</div>
+    <div class="card">
+      <div class="chart-container tall">
+        <canvas id="topClientsChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Summary Table -->
+  <div class="section-gap">
+    <div class="section-title">Client-by-Client Monthly Summary</div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Jan Daily Avg</th>
+            <th>Feb Daily Avg</th>
+            <th>Mar Daily Avg</th>
+            <th>Jan→Feb</th>
+            <th>Feb→Mar</th>
+            <th>Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>TNT_Eurosport</strong></td><td>13.6M</td><td>13.1M</td><td>14.3M</td><td class="trend-flat">−3%</td><td class="trend-up">+9%</td><td><span class="badge badge-blue">Stable + Growing</span></td></tr>
+          <tr><td><strong>Bleacher Report</strong></td><td>7.2M</td><td>11.4M</td><td>13.1M</td><td class="trend-up">+58%</td><td class="trend-up">+15%</td><td><span class="badge badge-green">Strong Growth</span></td></tr>
+          <tr><td>TF1 PROD - Restricted</td><td>835K</td><td>1.38M</td><td>1.61M</td><td class="trend-up">+65%</td><td class="trend-up">+17%</td><td><span class="badge badge-green">Strong Growth</span></td></tr>
+          <tr><td>QuickPlay</td><td>327K</td><td>1.29M</td><td>1.57M</td><td class="trend-up">+296%</td><td class="trend-up">+21%</td><td><span class="badge badge-green">Explosive Growth</span></td></tr>
+          <tr><td>TNT SPORTS</td><td>1.12M</td><td>775K</td><td>985K</td><td class="trend-dn">−31%</td><td class="trend-up">+27%</td><td><span class="badge badge-yellow">Declining then recovering</span></td></tr>
+          <tr><td>Chelsea FC</td><td>1.21M</td><td>969K</td><td>674K</td><td class="trend-dn">−20%</td><td class="trend-dn">−30%</td><td><span class="badge badge-red">Declining</span></td></tr>
+          <tr><td>FRANCE TV</td><td>141</td><td>2.41M</td><td>276K</td><td class="trend-up">+1.7M%</td><td class="trend-dn">−89%</td><td><span class="badge badge-purple">Event-Driven Spike</span></td></tr>
+          <tr><td>STC</td><td>543K</td><td>718K</td><td>878K</td><td class="trend-up">+32%</td><td class="trend-up">+22%</td><td><span class="badge badge-green">Steady Growth</span></td></tr>
+          <tr><td>emBET</td><td>559K</td><td>370K</td><td>466K</td><td class="trend-dn">−34%</td><td class="trend-up">+26%</td><td><span class="badge badge-yellow">Volatile / Watch</span></td></tr>
+          <tr><td>Serie A</td><td>368K</td><td>301K</td><td>241K</td><td class="trend-dn">−18%</td><td class="trend-dn">−20%</td><td><span class="badge badge-red">Declining</span></td></tr>
+          <tr><td>Gotham</td><td>77K</td><td>126K</td><td>212K</td><td class="trend-up">+64%</td><td class="trend-up">+68%</td><td><span class="badge badge-green">Rapid Growth</span></td></tr>
+          <tr><td>LFP</td><td>248K</td><td>322K</td><td>230K</td><td class="trend-up">+30%</td><td class="trend-dn">−29%</td><td><span class="badge badge-yellow">Volatile (match-driven)</span></td></tr>
+          <tr><td>PSG</td><td>52K</td><td>59K</td><td>43K</td><td class="trend-up">+13%</td><td class="trend-dn">−28%</td><td><span class="badge badge-yellow">Fading</span></td></tr>
+          <tr><td>LIV Golf</td><td>5.0K</td><td>5.9K</td><td>34</td><td class="trend-flat">+17%</td><td class="trend-dn">−99%</td><td><span class="badge badge-red">⚠ Likely Churned</span></td></tr>
+          <tr><td>Harlequins</td><td>4.6K</td><td>262</td><td>0</td><td class="trend-dn">−94%</td><td class="trend-dn">−100%</td><td><span class="badge badge-red">⚠ Churned</span></td></tr>
+          <tr><td>TOD</td><td>797</td><td>59K</td><td>97</td><td class="trend-up">+7,226%</td><td class="trend-dn">−100%</td><td><span class="badge badge-yellow">⚠ One-off Spike / Inactive</span></td></tr>
+          <tr><td>Canal Plus</td><td>469</td><td>10.1K</td><td>2.2K</td><td class="trend-up">+2,055%</td><td class="trend-dn">−78%</td><td><span class="badge badge-yellow">Event activity fading</span></td></tr>
+          <tr><td>Y! Sports</td><td>22K</td><td>10.2K</td><td>13K</td><td class="trend-dn">−54%</td><td class="trend-up">+28%</td><td><span class="badge badge-yellow">Declining</span></td></tr>
+          <tr><td>Pro League</td><td>12.2K</td><td>21K</td><td>21.1K</td><td class="trend-up">+72%</td><td class="trend-flat">+1%</td><td><span class="badge badge-green">Growing + Stabilizing</span></td></tr>
+          <tr><td>New York Mets</td><td>29.3K</td><td>30.2K</td><td>43.2K</td><td class="trend-flat">+3%</td><td class="trend-up">+43%</td><td><span class="badge badge-green">Season ramping up</span></td></tr>
+          <tr><td>Brentford</td><td>33.3K</td><td>32.1K</td><td>27.5K</td><td class="trend-flat">−4%</td><td class="trend-dn">−14%</td><td><span class="badge badge-yellow">Softening</span></td></tr>
+          <tr><td>Minute Media</td><td>3</td><td>7</td><td>37.4K</td><td class="trend-up">+133%</td><td class="trend-up">+534K%</td><td><span class="badge badge-blue">New Launch (Mar)</span></td></tr>
+          <tr><td>Konekt</td><td>0</td><td>2</td><td>4.8K</td><td>—</td><td class="trend-up">—</td><td><span class="badge badge-blue">New Launch (Mar)</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Anomalies & Churn -->
+  <div class="section-gap">
+    <div class="section-title">Anomalies & Churn Signals</div>
+    <div class="three-col">
+      <div>
+        <div class="insight-box red">
+          <strong>🔴 Harlequins — CHURNED</strong>
+          Active Jan 1 – Feb 5 (~4.6K calls/day avg). Zero activity for all of February and March. Last call recorded Feb 5. No data movement since — strong churn signal.
+        </div>
+        <div class="insight-box red">
+          <strong>🔴 LIV Golf — Effectively Churned</strong>
+          Steady ~5K/day through Jan into early Feb. Had an unusual spike week of Feb 12–18 (~20K avg), then dropped to near-zero. Late-March average is &lt;5 calls/day. Very likely an inactive contract.
+        </div>
+      </div>
+      <div>
+        <div class="insight-box yellow">
+          <strong>🟡 Chelsea FC — Sustained Decline</strong>
+          Down 66% from Jan early baseline (1.16M) to Mar daily avg (674K). Decline is steady and consistent, not event-driven. Warrants check-in.
+        </div>
+        <div class="insight-box yellow">
+          <strong>🟡 Serie A — Steady Decline</strong>
+          Down ~20% each month consistently (368K → 301K → 241K). Follows a clear downward trend with no sign of recovery. Season schedule dependent or potential churn risk.
+        </div>
+      </div>
+      <div>
+        <div class="insight-box yellow">
+          <strong>🟡 TOD — One-Off Spike, Then Gone</strong>
+          Negligible baseline throughout. Huge spike week of Feb 12–18 (235K avg, peak ~858K on Feb 14–16). Then dropped back to &lt;100/day. Appears to have been a one-time event. Currently inactive.
+        </div>
+        <div class="insight-box blue">
+          <strong>🔵 FRANCE TV — Event-Driven Pattern</strong>
+          Near-zero through Jan, then explosive Feb 5–25 (avg 3.9M/day — likely a major sports broadcast event). Drops sharply after Feb 25. Some residual usage in March but fragmentary. Classic event-driven, not a recurring relationship.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optimization Deep Dive -->
+  <div class="section-gap">
+    <div class="section-title">Optimization Analysis — TNT_Eurosport & Bleacher Report</div>
+    <div class="two-col">
+      <div class="card">
+        <h3 style="font-size:15px; font-weight:700; margin-bottom:6px;">TNT_Eurosport</h3>
+        <p style="font-size:12px; color:#64748b; margin-bottom:16px;">Daily API calls (M) — note weekend spike pattern</p>
+        <div class="chart-container">
+          <canvas id="tntChart"></canvas>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="insight-box green">
+            <strong>Optimization Signature — Late March Baseline Drop</strong>
+            TNT_Eurosport shows a strong weekly cycle: weekend spikes (Sat/Sun) driven by live sports, with weekday troughs. After mid-March peaks (Mar 14-15 reached an all-time high of 45M on a Sunday), the last week of March (Mar 23–30) shows a dramatically compressed floor. Weekday baselines drop to 1.99M–5.72M — roughly 40–60% below typical weekday averages seen in Jan/Feb. This compression of the weekday baseline while weekend patterns persist is consistent with an optimization that reduced redundant polling or caching API calls on non-event days.
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px; font-weight:700; margin-bottom:6px;">Bleacher Report</h3>
+        <p style="font-size:12px; color:#64748b; margin-bottom:16px;">Daily API calls (M) — look for post-peak stabilization</p>
+        <div class="chart-container">
+          <canvas id="brChart"></canvas>
+        </div>
+        <div style="margin-top:16px;">
+          <div class="insight-box green">
+            <strong>Optimization Signature — Feb 12 Step-Change</strong>
+            Bleacher Report grew rapidly from Jan (3.1M avg) through early Feb, reaching a peak of 21M on Feb 5. Then, beginning Feb 12, there is a clear and sustained step-change downward — the weekly average drops ~32% from 13.72M to 9.91M and stabilizes in the 10–12M band through late February. This is the hallmark of a server-side or client-side optimization: growth continues but at a new efficiency level. Volume then rises again in March as real usage grows, but without the "noise" that drove the Jan–early Feb runup.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Optimization Before/After Table -->
+    <div class="card">
+      <h3 style="font-size:14px; font-weight:700; margin-bottom:16px;">Before / After Comparison</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Client</th>
+            <th>Period</th>
+            <th>Daily Avg</th>
+            <th>Baseline Floor</th>
+            <th>Peak</th>
+            <th>Key Observation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="2"><strong>TNT_Eurosport</strong></td>
+            <td>Jan 1 – Mar 22 (pre-optimization floor)</td>
+            <td>13.5M</td>
+            <td>~3.5M</td>
+            <td>45.0M (Mar 15)</td>
+            <td>Typical weekday floor: 5–8M</td>
+          </tr>
+          <tr style="background:#f0fdf4;">
+            <td>Mar 23 – Mar 30 (post-optimization)</td>
+            <td>6.1M</td>
+            <td><strong>1.99M</strong></td>
+            <td>12.2M</td>
+            <td><strong>Weekday floor compressed 40–60%</strong></td>
+          </tr>
+          <tr>
+            <td rowspan="2"><strong>Bleacher Report</strong></td>
+            <td>Jan 1 – Feb 11 (pre-optimization)</td>
+            <td>7.8M → 13.7M</td>
+            <td>1.7M</td>
+            <td>21.0M (Feb 5)</td>
+            <td>High variance, rapid growth</td>
+          </tr>
+          <tr style="background:#f0fdf4;">
+            <td>Feb 12 – Feb 28 (post-optimization)</td>
+            <td><strong>10.4M</strong></td>
+            <td>6.9M</td>
+            <td>13.7M</td>
+            <td><strong>Variance reduced, stable baseline ↑</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Growing Clients -->
+  <div class="section-gap">
+    <div class="section-title">Growth Highlights</div>
+    <div class="three-col">
+      <div class="insight-box green">
+        <strong>🚀 QuickPlay — +296% Jan→Feb</strong>
+        From ~327K/day in Jan to 1.29M in Feb and 1.57M in March. One of the fastest-growing clients. Usage pattern shows sharp spikes around specific dates suggesting live streaming events.
+      </div>
+      <div class="insight-box green">
+        <strong>🚀 TF1 PROD — Steady Ramp</strong>
+        Consistent growth from 835K (Jan) → 1.38M (Feb) → 1.61M (Mar). Highly regular weekly pattern (Mon–Fri peaks, weekend dip) indicating consistent product usage.
+      </div>
+      <div class="insight-box green">
+        <strong>🚀 Gotham — 3,234% Growth (Small Base)</strong>
+        Grew from ~7K/day in Jan to 212K/day in March. Still modest in absolute terms but the trajectory is notable — a breakout client to watch.
+      </div>
+      <div class="insight-box blue">
+        <strong>🆕 Minute Media — New Launch (March)</strong>
+        Essentially zero through Jan/Feb, activated in mid-March and now running ~37K/day. Early-stage ramp.
+      </div>
+      <div class="insight-box blue">
+        <strong>🆕 Konekt — New Launch (March)</strong>
+        No meaningful usage until March, now at ~4.8K/day. New client.
+      </div>
+      <div class="insight-box blue">
+        <strong>🆕 Major League Baseball — March Activation</strong>
+        Zero through Jan/Feb, appeared in late March (~3.3K avg). Likely tied to opening of the MLB season.
+      </div>
+    </div>
+  </div>
+
+  <!-- STC separate chart -->
+  <div class="section-gap">
+    <div class="section-title">Selected Client Spotlights</div>
+    <div class="two-col">
+      <div class="card">
+        <h3 style="font-size:15px; font-weight:700; margin-bottom:4px;">STC</h3>
+        <p style="font-size:12px; color:#64748b; margin-bottom:16px;">Steady growth with step-up in mid-February</p>
+        <div class="chart-container"><canvas id="stcChart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 style="font-size:15px; font-weight:700; margin-bottom:4px;">Chelsea FC vs Serie A</h3>
+        <p style="font-size:12px; color:#64748b; margin-bottom:16px;">Both declining — possible churn risk</p>
+        <div class="chart-container"><canvas id="decliningChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; padding: 24px 0; font-size:12px; color:#94a3b8;">
+    Analysis based on daily API call volume · Data through March 30, 2026
+  </div>
+
+</div>
+
+<script>
+const dates = ["Jan 01","Jan 02","Jan 03","Jan 04","Jan 05","Jan 06","Jan 07","Jan 08","Jan 09","Jan 10","Jan 11","Jan 12","Jan 13","Jan 14","Jan 15","Jan 16","Jan 17","Jan 18","Jan 19","Jan 20","Jan 21","Jan 22","Jan 23","Jan 24","Jan 25","Jan 26","Jan 27","Jan 28","Jan 29","Jan 30","Jan 31","Feb 01","Feb 02","Feb 03","Feb 04","Feb 05","Feb 06","Feb 07","Feb 08","Feb 09","Feb 10","Feb 11","Feb 12","Feb 13","Feb 14","Feb 15","Feb 16","Feb 17","Feb 18","Feb 19","Feb 20","Feb 21","Feb 22","Feb 23","Feb 24","Feb 25","Feb 26","Feb 27","Feb 28","Mar 01","Mar 02","Mar 03","Mar 04","Mar 05","Mar 06","Mar 07","Mar 08","Mar 09","Mar 10","Mar 11","Mar 12","Mar 13","Mar 14","Mar 15","Mar 16","Mar 17","Mar 18","Mar 19","Mar 20","Mar 21","Mar 22","Mar 23","Mar 24","Mar 25","Mar 26","Mar 27","Mar 28","Mar 29","Mar 30"];
+
+const grandTotal = [12.004,13.997,31.566,34.523,12.225,21.424,33.441,25.757,13.305,24.989,45.334,23.919,17.362,27.882,22.721,15.474,34.899,44.229,23.054,27.794,19.883,14.386,20.714,21.352,42.505,28.162,22.161,43.467,28.001,37.12,32.346,34.65,22.7,26.425,28.014,38.581,27.389,33.183,54.263,33.851,36.5,29.658,29.284,30.001,47.082,40.076,25.885,36.925,40.075,28.121,28.248,40.564,42.655,23.315,29.205,47.245,27.884,23.376,33.426,41.698,21.072,23.207,26.992,25.443,30.888,45.153,57.67,33.81,42.871,44.737,33.5,32.756,59.141,66.167,27.555,41.349,37.66,39.205,26.842,52.773,45.539,19.672,21.029,23.71,34.945,24.84,26.447,32.999,7.696];
+
+const tntData = [3.186,6.61,21.246,19.99,3.603,13.708,23.567,16.319,3.991,13.793,27.248,10.926,6.527,17.191,13.795,6.339,20.303,24.679,8.834,16.11,9.978,7.211,11.137,13.833,24.83,7.462,6.106,19.341,7.301,23.291,12.742,24.043,7.442,8.349,6.665,7.8,5.756,14.024,27.796,10.947,9.555,8.193,6.996,10.651,25.641,20.357,7.631,16.924,19.152,8.61,6.996,17.603,19.639,7.651,13.043,27.222,9.345,5.738,14.154,23.202,8.346,6.92,6.042,3.882,8.757,23.753,38.687,8.776,16.827,14.208,10.097,8.252,33.37,45.023,9.074,16.356,15.683,16.195,7.871,29.195,29.784,4.936,5.719,3.799,9.66,5.616,6.127,12.185,1.989];
+
+const brData = [2.784,2.151,4.02,4.906,3.839,1.697,2.335,4.482,5.158,5.989,11.157,8.726,7.509,4.994,4.912,4.523,6.616,13.892,11.146,7.645,5.135,3.803,5.974,2.485,10.002,16.348,10.688,16.785,14.667,8.033,11.362,3.221,10.527,11.547,16.097,21.014,14.353,8.107,14.475,14.124,13.453,10.488,13.687,9.41,8.535,6.956,10.613,9.502,10.688,10.38,11.911,10.975,9.082,11.287,10.968,12.198,11.676,12.384,11.179,7.754,8.297,9.708,12.57,15.256,16.125,10.512,10.947,19.431,17.823,21.934,17.225,18.551,13.296,10.535,14.05,16.878,13.891,17.444,13.393,12.708,5.649,10.364,8.41,11.705,16.525,12.452,12.856,14.045,3.993];
+
+const tfData = [2.649,1.505,0.877,0.718,1.405,1.61,1.708,0.852,0.422,0.176,0.127,0.4,0.442,0.455,0.479,0.445,0.18,0.125,0.423,0.47,0.469,0.468,0.438,0.172,0.123,1.177,1.664,1.731,1.706,1.568,0.901,0.677,1.427,1.651,1.707,1.67,1.559,0.888,0.661,1.42,1.661,1.678,1.619,1.705,1.001,0.714,1.542,1.649,1.684,1.689,1.553,0.917,0.673,1.445,1.623,1.696,1.742,1.551,0.9,0.653,1.384,1.619,1.71,1.658,1.737,0.971,0.692,1.484,1.672,1.701,1.805,1.519,0.889,0.622,1.37,1.645,1.685,1.708,1.576,1.007,0.854,2.256,2.952,3.271,3.272,2.978,1.776,1.278,0.682];
+
+const stcData = [0.53,0.583,0.577,0.627,0.607,0.594,0.59,0.524,0.504,0.501,0.551,0.514,0.501,0.649,0.692,0.684,1.133,0.385,0.196,0.141,0.409,0.427,0.448,0.451,0.664,0.566,0.573,0.554,0.516,0.582,0.559,0.562,0.493,0.426,0.405,0.379,0.399,0.412,0.474,0.522,0.568,0.562,0.439,0.646,0.66,0.636,0.589,0.801,1.261,1.024,1.102,1.123,1.058,0.983,0.923,0.944,0.831,0.856,1.015,0.941,0.896,1.131,1.117,1.058,1.08,1.087,1.259,1.089,1.051,1.037,0.985,1.011,1.048,1.056,0.982,0.944,1.05,0.848,0.538,0.531,0.516,0.531,0.55,0.557,0.652,1.212,0.675,0.648,0.253];
+
+const chelseaData = [0.916,1.05,1.013,1.678,1.171,1.312,1.435,0.759,1.004,1.505,1.227,0.754,0.867,1.6,0.977,0.918,2.06,0.551,0.482,0.897,1.834,1.114,0.637,1.111,1.854,0.758,1.474,2.173,1.327,1.002,1.965,0.956,1.421,1.771,0.986,0.918,1.009,1.973,0.841,1.28,1.6,0.689,0.57,1.371,0.903,0.542,0.733,0.766,0.875,0.92,0.983,1.853,0.692,0.361,0.548,0.52,0.583,0.69,0.765,1.26,0.743,0.769,1.552,0.898,1.068,1.319,0.716,0.67,1.023,1.122,0.594,0.891,0.954,0.649,0.555,0.931,0.505,0.327,0.382,0.714,0.286,0.163,0.587,0.262,0.202,0.154,0.241,0.594,0.097];
+
+const serieAData = [0.051,0.235,0.693,0.737,0.148,0.578,0.779,0.546,0.166,0.542,0.862,0.48,0.194,0.452,0.445,0.252,0.6,0.674,0.296,0.085,0.045,0.044,0.241,0.456,0.702,0.205,0.169,0.064,0.051,0.179,0.444,0.572,0.216,0.218,0.234,0.204,0.17,0.375,0.668,0.303,0.217,0.297,0.149,0.242,0.607,0.648,0.173,0.085,0.218,0.085,0.154,0.586,0.763,0.299,0.077,0.061,0.041,0.186,0.576,0.834,0.318,0.181,0.153,0.085,0.204,0.509,0.799,0.22,0.061,0.041,0.044,0.184,0.595,0.677,0.185,0.052,0.027,0.042,0.253,0.578,0.845,0.134,0.05,0.031,0.032,0.023,0.03,0.027,0.009];
+
+const chartDefaults = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } }, tooltip: { mode: 'index', intersect: false } },
+  scales: { x: { ticks: { maxTicksLimit: 12, font: { size: 10 } }, grid: { display: false } }, y: { ticks: { font: { size: 10 } }, grid: { color: '#f1f5f9' } } },
+  elements: { point: { radius: 0, hoverRadius: 4 }, line: { tension: 0.3, borderWidth: 2 } }
+};
+
+// Grand Total
+new Chart(document.getElementById('grandTotalChart'), {
+  type: 'bar',
+  data: {
+    labels: dates,
+    datasets: [{
+      label: 'Total Daily Calls (M)',
+      data: grandTotal,
+      backgroundColor: dates.map((d,i) => {
+        const month = d.startsWith('Jan') ? 0 : d.startsWith('Feb') ? 1 : 2;
+        return ['rgba(59,130,246,0.7)','rgba(99,102,241,0.7)','rgba(16,185,129,0.7)'][month];
+      }),
+      borderWidth: 0
+    }]
+  },
+  options: { ...chartDefaults, plugins: { ...chartDefaults.plugins, legend: { display: false } } }
+});
+
+// Top Clients
+new Chart(document.getElementById('topClientsChart'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'TNT_Eurosport', data: tntData, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.05)' },
+      { label: 'Bleacher Report', data: brData, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.05)' },
+      { label: 'TF1 PROD', data: tfData, borderColor: '#8b5cf6', backgroundColor: 'transparent' },
+      { label: 'STC', data: stcData, borderColor: '#10b981', backgroundColor: 'transparent' },
+      { label: 'Chelsea FC', data: chelseaData, borderColor: '#ef4444', backgroundColor: 'transparent', borderDash: [4,2] },
+      { label: 'Serie A', data: serieAData, borderColor: '#f97316', backgroundColor: 'transparent', borderDash: [4,2] },
+    ]
+  },
+  options: chartDefaults
+});
+
+// TNT individual
+new Chart(document.getElementById('tntChart'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'TNT_Eurosport (M calls)', data: tntData, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.08)', fill: true },
+    ]
+  },
+  options: {
+    ...chartDefaults,
+    plugins: {
+      ...chartDefaults.plugins,
+      annotation: {},
+      tooltip: { mode: 'index', intersect: false }
+    }
+  }
+});
+
+// BR individual
+new Chart(document.getElementById('brChart'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'Bleacher Report (M calls)', data: brData, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', fill: true },
+    ]
+  },
+  options: chartDefaults
+});
+
+// STC chart
+new Chart(document.getElementById('stcChart'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'STC (M calls)', data: stcData, borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.08)', fill: true },
+    ]
+  },
+  options: chartDefaults
+});
+
+// Declining chart
+new Chart(document.getElementById('decliningChart'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'Chelsea FC', data: chelseaData, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.05)', fill: true },
+      { label: 'Serie A', data: serieAData, borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.05)', fill: true },
+    ]
+  },
+  options: chartDefaults
+});
+</script>
+</body>
+</html>
